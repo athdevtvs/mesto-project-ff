@@ -17,7 +17,8 @@ const initialCards = [
   {
     name: "Камчатка",
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-    description: "",
+    description:
+      "Поросль, лишайники и другая растительность на фоне горы на Камчатке",
   },
   {
     name: "Холмогорский район",
