@@ -84,6 +84,7 @@ popupAddCardForm.addEventListener('submit', evt => {
   addCardFormSubmitHandler(evt, popupAddCardWindow);
   cardNameInput.value = '';
   cardUrlInput.value = '';
+  document.querySelector('.card__image').addEventListener('click', imageViewHandler);
 });
 
 const imageView = (src, alt) => {
@@ -102,14 +103,14 @@ const imageView = (src, alt) => {
   openModal(popupImageViewWindow);
 };
 
-const imageViewHandler = (item, index) => {
-  const cardDescription = document.querySelectorAll('.card__description');
+const imageViewHandler = (evt, item = evt.currentTarget, index = 0) => {
+  const cardDescriptions = document.querySelectorAll('.card__description');
   const cardImageValue = item.src;
-  const cardDescriptionValue = cardDescription[index].textContent.trim();
+  const cardDescriptionValue = cardDescriptions[index].textContent.trim();
   popupImageViewWindow.classList.add('popup_is-animated');
   imageView(cardImageValue, cardDescriptionValue);
 };
 
 document.querySelectorAll('.card__image').forEach((item, index) => {
-  item.addEventListener('click', () => imageViewHandler(item, index));
+  item.addEventListener('click', evt => imageViewHandler(evt, item, index));
 });
