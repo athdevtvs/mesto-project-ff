@@ -18,14 +18,17 @@ const popupButtons = [
   document.querySelector('.card__image'),
 ];
 const popupCloseButtons = document.querySelectorAll('.popup__close');
-
 const nameInput = document.querySelector('.popup__input_type_name');
 const descriptionInput = document.querySelector('.popup__input_type_description');
 const profileTItle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
-
 const cardNameInput = document.querySelector('.popup__input_type_card-name');
 const cardUrlInput = document.querySelector('.popup__input_type_url');
+const popupEditProfileWindow = document.querySelector('.popup_type_edit');
+const popupAddCardWindow = document.querySelector('.popup_type_new-card');
+const popupEditProfileForm = document.forms['edit-profile'];
+const popupAddCardForm = document.forms['new-place'];
+const popupImageViewWindow = document.querySelector('.popup_type_image');
 
 popupButtons.forEach((popupButton, index) => {
   popupWindows[index].classList.add('popup_is-animated');
@@ -73,11 +76,6 @@ const addCardFormSubmitHandler = (evt, popupWindow) => {
   closeModal(popupWindow);
 };
 
-const popupEditProfileWindow = document.querySelector('.popup_type_edit');
-const popupAddCardWindow = document.querySelector('.popup_type_new-card');
-const popupEditProfileForm = document.forms['edit-profile'];
-const popupAddCardForm = document.forms['new-place'];
-
 popupEditProfileForm.addEventListener('submit', evt => {
   editProfileFormSubmitHandler(evt, popupEditProfileWindow);
 });
@@ -85,8 +83,6 @@ popupEditProfileForm.addEventListener('submit', evt => {
 popupAddCardForm.addEventListener('submit', evt => {
   addCardFormSubmitHandler(evt, popupAddCardWindow);
 });
-
-const popupImageViewWindow = document.querySelector('.popup_type_image');
 
 const imageView = (src, alt) => {
   const setAttributes = (el, attributes) => {
