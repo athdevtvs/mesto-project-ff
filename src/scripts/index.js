@@ -82,6 +82,8 @@ popupEditProfileForm.addEventListener('submit', evt => {
 
 popupAddCardForm.addEventListener('submit', evt => {
   addCardFormSubmitHandler(evt, popupAddCardWindow);
+  cardNameInput.value = '';
+  cardUrlInput.value = '';
 });
 
 const imageView = (src, alt) => {
