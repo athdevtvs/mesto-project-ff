@@ -1,10 +1,14 @@
-const cardTemplate = document.querySelector('#card-template').content;
+import { openPopup } from './modal.js';
 
-export const createCard = (card, deleteCard, toggleLikeHandler, viewImageHandler) => {
+const cardTemplate = document.querySelector('#card-template').content;
+const imageViewPopup = document.querySelector('.popup_type_image');
+const popupImg = imageViewPopup.querySelector('.popup__image');
+const popupCaption = imageViewPopup.querySelector('.popup__caption');
+
+export const createCard = (card, deleteCard, likeCard, viewImage) => {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
   const likeButton = cardElement.querySelector('.card__like-button');
-  const viewImage = cardElement.querySelector('.card__image');
 
   cardImage.src = card.link;
   cardImage.alt = card.description;
@@ -14,8 +18,8 @@ export const createCard = (card, deleteCard, toggleLikeHandler, viewImageHandler
     .querySelector('.card__delete-button')
     .addEventListener('click', () => deleteCard(cardElement));
 
-  likeButton.addEventListener('click', toggleLikeHandler);
-  viewImage.addEventListener('click', viewImageHandler);
+  likeButton.addEventListener('click', likeCard);
+  cardImage.addEventListener('click', viewImage);
 
   return cardElement;
 };
@@ -24,14 +28,20 @@ export const deleteCard = cardItem => {
   cardItem.remove();
 };
 
-export const toggleLikeHandler = evt => {
+export const likeCard = evt => {
   if (evt.target.classList.contains('card__like-button')) {
     evt.target.classList.toggle('card__like-button_is-active');
   }
 };
 
-export const viewImageHandler = evt => {
-  if (evt.target.classList.contains('card__image')) {
-    document.querySelector('.popup_type_image').classList.toggle('popup_is-opened');
-  }
+export const viewImage = evt => {
+  const card = evt.target.closest('.places__item');
+  const cardImage = card.querySelector('.card__image');
+  const cardTitle = card.querySelector('.card__title').textContent.trim();
+
+  popupImg.src = cardImage.src;
+  popupImg.alt = cardImage.alt;
+  popupCaption.textContent = cardTitle;
+
+  openPopup(imageViewPopup);
 };
