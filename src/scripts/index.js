@@ -11,6 +11,7 @@ initialCards.forEach(card => {
   placesContainer.append(cardElement);
 });
 
+const popups = document.querySelectorAll('.popup');
 const nameInput = document.querySelector('.popup__input_type_name');
 const descriptionInput = document.querySelector('.popup__input_type_description');
 const profileTitle = document.querySelector('.profile__title');
@@ -23,6 +24,8 @@ const popupEditProfileForm = document.forms['edit-profile'];
 const popupAddCardForm = document.forms['new-place'];
 const editPopupButton = document.querySelector('.profile__edit-button');
 const addPopupButton = document.querySelector('.profile__add-button');
+
+popups.forEach(popup => popup.classList.add('popup_is-animated'));
 
 function openProfileEditPopup() {
   openPopup(editProfilePopup);
