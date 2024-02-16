@@ -5,6 +5,9 @@ import { openPopup, closePopup } from '../components/modal.js';
 
 const container = document.querySelector('.content');
 const placesContainer = container.querySelector('.places__list');
+const imageViewPopup = document.querySelector('.popup_type_image');
+const popupImg = imageViewPopup.querySelector('.popup__image');
+const popupCaption = imageViewPopup.querySelector('.popup__caption');
 
 const viewImage = evt => {
   const card = evt.target.closest('.places__item');
@@ -36,9 +39,6 @@ const popupEditProfileForm = document.forms['edit-profile'];
 const popupAddCardForm = document.forms['new-place'];
 const editPopupButton = document.querySelector('.profile__edit-button');
 const addPopupButton = document.querySelector('.profile__add-button');
-const imageViewPopup = document.querySelector('.popup_type_image');
-const popupImg = imageViewPopup.querySelector('.popup__image');
-const popupCaption = imageViewPopup.querySelector('.popup__caption');
 
 popups.forEach(popup => popup.classList.add('popup_is-animated'));
 
