@@ -32,4 +32,14 @@ function closePopup() {
   openedPopup.removeEventListener('click', closeByClick);
 }
 
-export { openPopup, closePopup };
+function isLoadingMsg(popupForm, isLoading) {
+  const popupButton = popupForm.querySelector('.popup__button');
+
+  if (isLoading) {
+    popupButton.textContent = 'Сохранение...';
+  } else {
+    popupButton.textContent = 'Сохранить';
+  }
+}
+
+export { openPopup, closePopup, isLoadingMsg };
