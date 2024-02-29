@@ -221,7 +221,7 @@ const confirmDeletionFormSubmitHandler = async evt => {
 
 formConfirmDelete.addEventListener('submit', confirmDeletionFormSubmitHandler);
 
-const handleLikeCard = async (idCard, evt, status) => {
+async function handleLikeCard(idCard, evt, status) {
   if (!status) {
     try {
       const data = await putLikeCard(idCard);
@@ -237,4 +237,4 @@ const handleLikeCard = async (idCard, evt, status) => {
       console.error(err);
     }
   }
-};
+}
