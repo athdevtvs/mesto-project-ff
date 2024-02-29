@@ -1,19 +1,21 @@
 function closeByEscape(evt) {
+  const openedPopup = document.querySelector('.popup_is-opened');
   if (evt.key === 'Escape') {
-    closePopup();
+    closePopup(openedPopup);
   }
 }
 
 function closeByOverlay(evt) {
   const openedPopup = document.querySelector('.popup_is-opened');
   if (evt.target === openedPopup) {
-    closePopup();
+    closePopup(openedPopup);
   }
 }
 
 function closeByClick(evt) {
+  const openedPopup = document.querySelector('.popup_is-opened');
   if (evt.target.classList.contains('popup__close')) {
-    closePopup();
+    closePopup(openedPopup);
   }
 }
 
@@ -24,22 +26,11 @@ function openPopup(popup) {
   popup.addEventListener('click', closeByClick);
 }
 
-function closePopup() {
-  const openedPopup = document.querySelector('.popup_is-opened');
-  openedPopup.classList.remove('popup_is-opened');
+function closePopup(popup) {
+  popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', closeByEscape);
-  openedPopup.removeEventListener('mousedown', closeByOverlay);
-  openedPopup.removeEventListener('click', closeByClick);
+  popup.removeEventListener('mousedown', closeByOverlay);
+  popup.removeEventListener('click', closeByClick);
 }
 
-function isLoadingMsg(popupForm, isLoading) {
-  const popupButton = popupForm.querySelector('.popup__button');
-
-  if (isLoading) {
-    popupButton.textContent = 'Сохранение...';
-  } else {
-    popupButton.textContent = 'Сохранить';
-  }
-}
-
-export { openPopup, closePopup, isLoadingMsg };
+export { openPopup, closePopup };

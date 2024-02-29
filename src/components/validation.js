@@ -1,7 +1,3 @@
-/*const form = document.querySelector('.popup__form'); //.form
-const formInput = form.querySelector('.popup__input'); //.form__input
-const formError = form.querySelector(`.${formInput.id}-error`); //${formInput.id}-error*/
-
 const showInputError = (formElement, inputElement, errorMessage, validationConfig) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(validationConfig.inputErrorClass);
@@ -37,10 +33,7 @@ const hasInvalidInput = inputList => {
 };
 
 export const toggleButtonState = (inputList, buttonElement, validationConfig) => {
-  /*if (inputList?.length === 0) {
-    buttonElement.disabled = false;
-    buttonElement.classList.remove(validationConfig.inactiveButtonClass);
-  } else */ if (hasInvalidInput(inputList)) {
+  if (hasInvalidInput(inputList)) {
     buttonElement.disabled = true;
     buttonElement.classList.add(validationConfig.inactiveButtonClass);
   } else {
@@ -49,14 +42,9 @@ export const toggleButtonState = (inputList, buttonElement, validationConfig) =>
   }
 };
 
-const setEventListeners = (popup, formElement, validationConfig) => {
+const setEventListeners = (formElement, validationConfig) => {
   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
   const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
-
-  if (popup.classList.contains('popup_is-opened')) {
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
-  }
 
   toggleButtonState(inputList, buttonElement, validationConfig);
 
@@ -76,7 +64,7 @@ export const enableValidation = (popup, validationConfig) => {
       evt.preventDefault();
     });
 
-    setEventListeners(popup, formElement, validationConfig);
+    setEventListeners(formElement, validationConfig);
   });
 };
 
@@ -91,9 +79,7 @@ export const clearValidation = (profileForm, validationConfig) => {
       hideInputError(formElement, inputElement, validationConfig);
     });
 
-    //toggleButtonState(inputList, buttonElement, validationConfig);
-    /*if (profileForm) {
-      toggleButtonState(inputList, buttonElement, validationConfig);
-    }*/
+    buttonElement.disabled = true;
+    buttonElement.classList.add(validationConfig.inactiveButtonClass);
   });
 };

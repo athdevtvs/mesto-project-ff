@@ -1,16 +1,11 @@
-import { removeCard, addCardLike, deleteCardLike } from '../components/api.js';
-import { openPopup, closePopup } from '../components/modal.js';
-
 const cardTemplate = document.querySelector('#card-template').content;
-const myId = '7ef8f4404036f8cc329b5a61';
-let idCard = '';
 let cardItem = '';
 
-export const createCard = (userId, card, likeCard, viewImage, openConfirmDeletionPopup) => {
+export const createCard = (userId, card, handleLikeCard, viewImage, confirmDelete) => {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
-  const likeButton = cardElement.querySelector('.card__like-button');
-  const deleteButton = cardElement.querySelector('.card__delete-button');
+  const buttonLike = cardElement.querySelector('.card__like-button');
+  const buttonDelete = cardElement.querySelector('.card__delete-button');
   const likeCounter = cardElement.querySelector('.card__like-counter');
 
   cardImage.src = card.link;
@@ -19,86 +14,41 @@ export const createCard = (userId, card, likeCard, viewImage, openConfirmDeletio
   likeCounter.textContent = card.likes.length;
 
   if (userId !== card.owner._id) {
-    deleteButton.style.visibility = 'hidden';
+    buttonDelete.style.visibility = 'hidden';
   }
 
   card.likes.forEach(cardLikes => {
-    if (cardLikes._id === myId) {
-      likeButton.classList.toggle('card__like-button_is-active');
+    if (cardLikes._id === userId) {
+      buttonLike.classList.toggle('card__like-button_is-active');
     }
   });
 
-  deleteButton.addEventListener('click', evt => {
-    idCard = card._id;
+  buttonDelete.addEventListener('click', evt => {
     cardItem = evt.target.closest('.card');
-    openConfirmDeletionPopup();
+    confirmDelete(card._id, cardElement);
   });
 
-  likeButton.addEventListener('click', evt => {
-    idCard = card._id;
-    likeCard(evt, idCard);
+  buttonLike.addEventListener('click', evt => {
+    handleLikeCard(card._id, evt, checkStatusLike(evt));
   });
-  cardImage.addEventListener('click', viewImage);
+
+  cardImage.addEventListener('click', () => viewImage(card.link, card.name));
 
   return cardElement;
 };
 
-const popupConfirmDeletionForm = document.forms['confirm-deletion'];
-
-export function openConfirmDeletionPopup() {
-  const confirmDeletionPopup = document.querySelector('.popup_type_confirm_deletion');
-  const buttonElement = popupConfirmDeletionForm.querySelector('.popup__button');
-  openPopup(confirmDeletionPopup);
-  buttonElement.disabled = false;
-  buttonElement.classList.remove('popup__button_disabled');
-}
-
-const confirmDeletionFormSubmitHandler = async evt => {
-  evt.preventDefault();
-  deleteCard();
+export const removeCard = cardItem => {
+  cardItem.remove();
 };
 
-popupConfirmDeletionForm.addEventListener('submit', confirmDeletionFormSubmitHandler);
-
-const deleteCard = () => {
-  removeCard(idCard)
-    .then(() => {
-      cardItem.remove();
-      closePopup();
-    })
-    .catch(err => {
-      console.error(err);
-    });
+const checkStatusLike = evt => {
+  return evt.target.classList.contains('card__like-button_is-active') ? true : false;
 };
 
-const updateLikeCounter = (likeCounter, likes) => {
-  likeCounter.textContent = likes.length;
-};
-
-export const likeCard = (evt, idCard) => {
+export const changeLike = (evt, likes) => {
   const likeCounter = evt.target.nextElementSibling;
-
-  if (evt.target.classList.contains('card__like-button_is-active')) {
-    deleteCardLike(idCard)
-      .then(data => {
-        if (evt.target.classList.contains('card__like-button')) {
-          evt.target.classList.toggle('card__like-button_is-active');
-        }
-        updateLikeCounter(likeCounter, data.likes);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  } else {
-    addCardLike(idCard)
-      .then(data => {
-        if (evt.target.classList.contains('card__like-button')) {
-          evt.target.classList.toggle('card__like-button_is-active');
-        }
-        updateLikeCounter(likeCounter, data.likes);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+  if (evt.target.classList.contains('card__like-button')) {
+    evt.target.classList.toggle('card__like-button_is-active');
   }
+  likeCounter.textContent = likes.length;
 };
