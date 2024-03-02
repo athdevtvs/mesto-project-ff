@@ -21,7 +21,7 @@ const popupViewImage = document.querySelector('.popup_type_image');
 const popupImg = popupViewImage.querySelector('.popup__image');
 const popupCaption = popupViewImage.querySelector('.popup__caption');
 
-const handleViewImage = async (link, name) => {
+const handleViewImage = (link, name) => {
   popupImg.src = link;
   popupImg.alt = name;
   popupCaption.textContent = name;
@@ -47,21 +47,25 @@ const setAvatarImage = ({ avatar }) => {
 
 let userId;
 
-try {
-  const [userData, cardsData] = await getPageData();
+const renderPageData = async () => {
+  try {
+    const [userData, cardsData] = await getPageData();
 
-  userId = userData._id;
+    userId = userData._id;
 
-  setProfileData({ name: userData.name, about: userData.about });
-  setAvatarImage({ avatar: userData.avatar });
+    setProfileData({ name: userData.name, about: userData.about });
+    setAvatarImage({ avatar: userData.avatar });
 
-  cardsData.forEach(card => {
-    const cardElement = createCard(userId, card, handleLikeCard, handleViewImage, handleConfirmDelete);
-    placesContainer.append(cardElement);
-  });
-} catch (err) {
-  console.error(err);
-}
+    cardsData.forEach(card => {
+      const cardElement = createCard(userId, card, handleLikeCard, handleViewImage, handleConfirmDelete);
+      placesContainer.append(cardElement);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+renderPageData();
 
 const getCardData = () => {
   return { nameValue: cardNameInput.value, linkValue: cardUrlInput.value };
@@ -122,7 +126,7 @@ buttonOpenPopupProfile.addEventListener('click', openProfileEditPopup);
 buttonOpenPopupAddCard.addEventListener('click', openAddCardPopup);
 buttonOpenPopupAvatar.addEventListener('click', openEditAvatarPopup);
 
-const isLoadingMsg = async (popupForm, isLoading) => {
+const isLoadingMsg = (popupForm, isLoading) => {
   const popupButton = popupForm.querySelector('.popup__button');
 
   if (isLoading) {
